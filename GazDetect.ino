@@ -22,9 +22,9 @@ int valuePot = 0;
 int scalePot = 0;
 int valueGaz = 0;
 boolean clignote = false;
-// the setup routine runs once when you press reset:
+
 void setup() {                
-  // initialize the digital pin as an output.
+  // initialize the digital pin as output or input.
   pinMode(L1V, OUTPUT);
   pinMode(L2V, OUTPUT);
   pinMode(L3V, OUTPUT);
@@ -38,6 +38,7 @@ void setup() {
   pinMode(BP, INPUT);
   pinMode(Pot, INPUT);
   
+  // Turn off all the LEDs
   digitalWrite(L1V, LOW);
   digitalWrite(L2V, LOW);
   digitalWrite(L3V, LOW);
@@ -45,8 +46,10 @@ void setup() {
   digitalWrite(L5R, LOW);
   digitalWrite(L5R, LOW);
   
+  // Initialise serial port
   Serial.begin(9600);
   
+  // Delay for sensor preheating
   for (int prechauff=0; prechauff <= 20; prechauff++) {
     digitalWrite(L1V, HIGH);
     delay(500);
@@ -55,8 +58,9 @@ void setup() {
   }
 }
 
-// the loop routine runs over and over again forever:
+
 void loop() {
+  // Turn ON all the LEDs if PushButton switched ON
   int valBP = digitalRead(BP);
   if (valBP == HIGH) {
     digitalWrite(L1V, HIGH);
@@ -75,9 +79,12 @@ void loop() {
     digitalWrite(L5R, LOW);
     digitalWrite(L6R, LOW);
   }
+  
+  // Read sensor value
   valueGaz = analogRead(Acapt);
-  valuePot = analogRead(Pot);
-  Serial.println(valuePot);
+  Serial.println(valueGaz);
+  
+  // Switch ON LED depending of valueGaz
   if (valueGaz > 50) {
     digitalWrite(L1V, HIGH);
   }
@@ -93,6 +100,8 @@ void loop() {
   if (valueGaz > 200) {
     digitalWrite(L5R, HIGH);
   }
+  
+  // Report Digital output from sensor to LED with blinking function
   if (digitalRead(Dcapt) == LOW) {
     if (clignote == false) {
       digitalWrite(L6R, LOW);
