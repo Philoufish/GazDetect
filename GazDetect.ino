@@ -1,12 +1,9 @@
 /*
-  Blink
-  Turns on an LED on for one second, then off for one second, repeatedly.
- 
-  This example code is in the public domain.
+  Détecte le taux de gaz, pousse le niveau sur un bargraph et détecte le seuil.
  */
  
-// Pin 13 has an LED connected on most Arduino boards.
-// give it a name:
+// Définition des variables
+
 int Acapt = A0;
 int L3V = A1;
 int L2V = A2;
